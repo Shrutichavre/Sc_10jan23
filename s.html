@@ -1,0 +1,91 @@
+<html>
+<head>
+    <title>Speed App</title>
+    <style>
+        * { font-size:40px; font-family: Century;}
+        body {background-color:#b5b3c4; }
+        .btn {width:20%; border-radius:30px;}
+        .btn:hover {background-color:yellow; color:red;}
+        #error {color: red; font-size: 40px; margin-top: 10px; font-weight: bold;}
+    </style>
+    <script>
+        function speed() {
+            event.preventDefault();
+            let num = document.getElementById("num");
+            let ans = document.getElementById("ans");
+            let error = document.getElementById("error");
+            let action = document.activeElement.value;
+
+           
+            error.innerHTML = "";
+
+            if (num.value == "") {
+                error.innerHTML = "You did not enter a number";
+                ans.innerHTML = "";
+                num.focus();
+                return;
+            }
+
+            let n = parseFloat(num.value);
+
+            if (n < 0) {
+                error.innerHTML = "Negative numbers are not allowed";
+                ans.innerHTML = "";
+                num.focus();
+                return;
+            }
+
+            if (n < 0 || n > 100) {
+                error.innerHTML = "Please enter a number between 0 and 100";
+                ans.innerHTML = "";
+                num.focus();
+                return;
+            }
+
+            if (/\s/.test(num.value)) {
+                error.innerHTML = "Spaces are not allowed";
+                ans.innerHTML = "";
+                num.focus();
+                return;
+            }
+
+            if (!/^-?\d+$/.test(n)) {
+                error.innerHTML = "Only numeric values are allowed";
+                ans.innerHTML = "";
+                num.focus();
+                return;
+            }
+
+            if (action == "KMH") {
+                let res = n * 1.609344;
+                let msg = "KMH = " + res.toFixed(3);
+                ans.innerHTML = msg;
+            } else if (action == "Knots") {
+                let res = n / 1.150779;
+                let msg = "Knots = " + res.toFixed(3);
+                ans.innerHTML = msg;
+            } else {
+                let res = n / 761.207;
+                let msg = "Mach = " + res.toFixed(3);
+                ans.innerHTML = msg;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <center>
+        <h1>Speed Converter App</h1>
+        <form onsubmit="speed()">
+            <input type="text" step="any" placeholder="Enter speed value" id="num"/>
+            <br/><br/>
+            <input type="submit" value="KMH" class="btn" />
+            <br/><br/>
+            <input type="submit" value="Knots" class="btn" /><br/><br/>
+            <input type="submit" value="Mach" class="btn" />
+        </form>
+        <div id="error"></div>
+        <h2 id="ans"></h2>
+    </center>
+</body>
+</html>
